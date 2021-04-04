@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/example.swing.thesaurus.sqlite.iml" filepath="$PROJECT_DIR$/example.swing.thesaurus.sqlite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sdm.demo.swing.sqlite3.thesaurus.iml" filepath="$PROJECT_DIR$/sdm.demo.swing.sqlite3.thesaurus.iml" />
     </modules>
   </component>
 </project>
