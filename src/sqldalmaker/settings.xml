@@ -2,12 +2,12 @@
 <settings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="settings.xsd">
 
-	<folders target="src" sql="src/thesaurus/dal/sql" />
+	<folders target="src" sql="sqldalmaker/sql" />
 
-	<dto scope="com.sqldalmaker.thesaurus.dto" inheritance=""
-		field-names-mode="1" single-file=""/>
+	<dto scope="sdm.thesaurus.dto" inheritance=""
+		 field-names-mode="1" single-file=""/>
 
-	<dao scope="com.sqldalmaker.thesaurus.dao" />
+	<dao scope="sdm.thesaurus.dao" />
 
 	<external-vm-file path="" />
 
