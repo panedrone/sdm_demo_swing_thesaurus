@@ -1,4 +1,4 @@
-package thesaurus;
+package sdm.thesaurus;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -8,8 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.List;
+import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,7 +29,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.filechooser.FileFilter;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
@@ -39,23 +38,16 @@ import com.sqldalmaker.thesaurus.dto.Word;
 @SuppressWarnings("rawtypes")
 public class MainPanel extends JPanel {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 8189942373278143473L;
-    private JTextField textField_SearchKey;
-    private JLabel lblWordsCount;
-    private JList list_Words;
+    private final JTextField textField_SearchKey;
+    private final JLabel lblWordsCount;
+    private final JList list_Words;
 
-    private JTextField textField;
-
-    private Timer timer = new Timer();
+    private final Timer timer = new Timer();
     private TimerTask task = null;
 
-    private MyTableModel tableModel;
+    private final MyTableModel tableModel;
 
-    private List<RelatedWord> synonims;
-    private JTable table;
+    private List<RelatedWord> synonyms;
 
     private class MyTableModel extends AbstractTableModel {
 
@@ -68,9 +60,8 @@ public class MainPanel extends JPanel {
 
         @Override
         public String getColumnName(int col) {
-            switch (col) {
-                case 0:
-                    return "Related";
+            if (col == 0) {
+                return "Related";
             }
             return "Note";
         }
@@ -82,26 +73,23 @@ public class MainPanel extends JPanel {
 
         @Override
         public int getRowCount() {
-            if (synonims == null) {
+            if (synonyms == null) {
                 return 0;
             }
-            return synonims.size();
+            return synonyms.size();
         }
 
         @Override
         public Object getValueAt(int rowIndex, int columnIndex) {
-
-            if (synonims == null) {
+            if (synonyms == null) {
                 return null;
             }
-            switch (columnIndex) {
-                case 0:
-                    return synonims.get(rowIndex).getRgwWord();
-                default:
-                    Object ps = synonims.get(rowIndex).getRgPartOfSpeech();
-                    Object note = synonims.get(rowIndex).getRgwNote();
-                    return String.format("%s %s", ps, note);
+            if (columnIndex == 0) {
+                return synonyms.get(rowIndex).getRgwWord();
             }
+            Object ps = synonyms.get(rowIndex).getRgPartOfSpeech();
+            Object note = synonyms.get(rowIndex).getRgwNote();
+            return String.format("%s %s", ps, note);
         }
 
         @Override
@@ -111,19 +99,15 @@ public class MainPanel extends JPanel {
     }
 
     private void show_related(int index) {
-
         ListModel dlm = list_Words.getModel();
         if (index > dlm.getSize() - 1) {
             index = dlm.getSize() - 1;
         }
         Word word = (Word) dlm.getElementAt(index);
         list_Words.ensureIndexIsVisible(index);
-        reloadSynonimsTable(word);
+        reloadSynonymsTable(word);
     }
 
-    /**
-     * Create the panel.
-     */
     public MainPanel() {
         super.setLayout(new BorderLayout(0, 0));
 
@@ -161,7 +145,7 @@ public class MainPanel extends JPanel {
                 show_related(index);
             }
         });
-        btnNewButton.setIcon(new ImageIcon(MainPanel.class.getResource("/img/131.png")));
+        btnNewButton.setIcon(new ImageIcon(Objects.requireNonNull(MainPanel.class.getResource("/img/131.png"))));
         panel_3.add(btnNewButton, BorderLayout.EAST);
 
         textField_SearchKey.getDocument().addDocumentListener(new DocumentListener() {
@@ -210,7 +194,7 @@ public class MainPanel extends JPanel {
         splitPane.setRightComponent(panel_2);
         panel_2.setLayout(new BorderLayout(0, 0));
 
-        textField = new JTextField();
+        JTextField textField = new JTextField();
         textField.setEditable(false);
         textField.setColumns(10);
         panel_2.add(textField, BorderLayout.NORTH);
@@ -218,8 +202,9 @@ public class MainPanel extends JPanel {
         JScrollPane scrollPane_1 = new JScrollPane();
         panel_2.add(scrollPane_1, BorderLayout.CENTER);
 
-        table = new JTable();
+        JTable table = new JTable();
         scrollPane_1.setViewportView(table);
+        table.setTableHeader(null);
 
         tableModel = new MyTableModel();
         table.setModel(tableModel);
@@ -234,9 +219,9 @@ public class MainPanel extends JPanel {
 
     }
 
-    private void reloadSynonimsTable(Word word) {
+    private void reloadSynonymsTable(Word word) {
         try {
-            synonims = DataController.getRelatedWords(word);
+            synonyms = DataController.getRelatedWords(word);
         } catch (Exception tr) {
             InternalHelpers.showError(this, tr);
         } finally {
@@ -251,11 +236,8 @@ public class MainPanel extends JPanel {
             @SuppressWarnings("unchecked")
             @Override
             public void run() {
-
                 try {
-
                     final List<Word> list = DataController.getWordsByKey(textField_SearchKey.getText());
-
                     DefaultListCellRenderer cellRenderer = new DefaultListCellRenderer() {
 
                         private static final long serialVersionUID = 1L;
@@ -268,27 +250,19 @@ public class MainPanel extends JPanel {
                                     cellHasFocus);
                         }
                     };
-
                     list_Words.setCellRenderer(cellRenderer);
-
                     AbstractListModel listModel = new AbstractListModel() {
-
                         private static final long serialVersionUID = 1L;
-
                         @Override
                         public Object getElementAt(int index) {
                             return list.get(index);
                         }
-
                         @Override
                         public int getSize() {
                             return list.size();
                         }
-
                     };
-
                     list_Words.setModel(listModel);
-
                 } catch (Exception e) {
                     //e.printStackTrace();
                     InternalHelpers.showError(MainPanel.this, e);
@@ -311,55 +285,7 @@ public class MainPanel extends JPanel {
         timer.schedule(task, 500);
     }
 
-    // http://www.java2s.com/Code/JavaAPI/javax.swing/JFileChoosersetFileFilterFileFilterfilter.htm
-    class ExtensionFileFilter extends FileFilter {
-
-        String description;
-        String extensions[];
-
-        public ExtensionFileFilter(String description, String extension) {
-            this(description, new String[]{extension});
-        }
-
-        public ExtensionFileFilter(String description, String extensions[]) {
-            if (description == null) {
-                this.description = extensions[0];
-            } else {
-                this.description = description;
-            }
-            this.extensions = (String[]) extensions.clone();
-            toLower(this.extensions);
-        }
-
-        private void toLower(String array[]) {
-            for (int i = 0, n = array.length; i < n; i++) {
-                array[i] = array[i].toLowerCase();
-            }
-        }
-
-        @Override
-        public String getDescription() {
-            return description;
-        }
-
-        @Override
-        public boolean accept(File file) {
-            if (file.isDirectory()) {
-                return true;
-            } else {
-                String path = file.getAbsolutePath().toLowerCase();
-                for (int i = 0, n = extensions.length; i < n; i++) {
-                    String extension = extensions[i];
-                    if ((path.endsWith(extension) && (path.charAt(path.length() - extension.length() - 1)) == '.')) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-    }
-
     public void updateWordsCount() throws Exception {
-        lblWordsCount.setText("Words count, total: " + Long.toString(DataController.getTotalWordsCount()));
+        lblWordsCount.setText("Words count, total: " + DataController.getTotalWordsCount());
     }
 }

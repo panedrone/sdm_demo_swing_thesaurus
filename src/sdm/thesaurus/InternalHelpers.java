@@ -1,4 +1,4 @@
-package thesaurus;
+package sdm.thesaurus;
 
 import java.awt.Component;
 import java.io.IOException;

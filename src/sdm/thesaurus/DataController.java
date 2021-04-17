@@ -1,4 +1,4 @@
-package thesaurus;
+package sdm.thesaurus;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import com.sqldalmaker.thesaurus.dto.Word;
 
 public class DataController {
 
-    private static DataStoreManager dm = new DataStoreManager();
+    private static final DataStoreManager dm = new DataStoreManager();
 
     public static List<RelatedWord> getRelatedWords(Word word) throws Exception {
         dm.connect();
