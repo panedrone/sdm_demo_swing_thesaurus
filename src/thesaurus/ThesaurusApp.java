@@ -36,10 +36,10 @@ public class ThesaurusApp {
 					try { // https://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/nimbus.html
 						for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 							// System.out.println(info.getName());
-							if ("Windows".equals(info.getName())) {
-								UIManager.setLookAndFeel(info.getClassName());
-								break;
-							}
+//							if ("Windows".equals(info.getName())) {
+//								UIManager.setLookAndFeel(info.getClassName());
+//								break;
+//							}
 						}
 					} catch (Exception e) {
 						// If Nimbus is not available, you can set the GUI to another look and feel.
