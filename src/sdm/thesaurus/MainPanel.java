@@ -121,13 +121,13 @@ public class MainPanel extends JPanel {
         JSplitPane splitPane = new JSplitPane();
         super.add(splitPane, BorderLayout.CENTER);
 
-        JPanel panel_1 = new JPanel();
-        panel_1.setPreferredSize(new Dimension(220, 220));
-        splitPane.setLeftComponent(panel_1);
-        panel_1.setLayout(new BorderLayout(0, 0));
+        JPanel panel_left = new JPanel();
+        panel_left.setPreferredSize(new Dimension(220, 220));
+        splitPane.setLeftComponent(panel_left);
+        panel_left.setLayout(new BorderLayout(0, 0));
 
         JPanel panel_3 = new JPanel();
-        panel_1.add(panel_3, BorderLayout.NORTH);
+        panel_left.add(panel_3, BorderLayout.NORTH);
         panel_3.setLayout(new BorderLayout(0, 0));
 
         textField_SearchKey = new JTextField();
@@ -170,7 +170,7 @@ public class MainPanel extends JPanel {
         });
 
         JScrollPane scrollPane = new JScrollPane();
-        panel_1.add(scrollPane);
+        panel_left.add(scrollPane);
 
         list_Words = new JList();
         list_Words.addMouseListener(new MouseAdapter() {
@@ -194,17 +194,14 @@ public class MainPanel extends JPanel {
         splitPane.setRightComponent(panel_2);
         panel_2.setLayout(new BorderLayout(0, 0));
 
-        JTextField textField = new JTextField();
-        textField.setEditable(false);
-        textField.setColumns(10);
-        panel_2.add(textField, BorderLayout.NORTH);
-
         JScrollPane scrollPane_1 = new JScrollPane();
         panel_2.add(scrollPane_1, BorderLayout.CENTER);
 
         JTable table = new JTable();
         scrollPane_1.setViewportView(table);
         table.setTableHeader(null);
+
+        list_Words.setFont(table.getFont());
 
         tableModel = new MyTableModel();
         table.setModel(tableModel);

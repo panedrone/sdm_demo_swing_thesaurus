@@ -70,19 +70,18 @@ public class ThesaurusApp {
         final MainPanel mainPanel = new MainPanel();
         tabbedPane.addTab("Thesaurus", null, mainPanel, null);
 
-        JScrollPane scrollPane_1 = new JScrollPane();
-        tabbedPane.addTab("ERD", null, scrollPane_1, null);
+        final JScrollPane scrollPane_erd = new JScrollPane();
+        tabbedPane.addTab("ERD", null, scrollPane_erd, null);
 
-        JLabel label = new JLabel("");
-        label.setVerticalAlignment(SwingConstants.TOP);
-        label.setIcon(new ImageIcon(Objects.requireNonNull(ThesaurusApp.class.getResource("/sdm/thesaurus/erd.png"))));
-        scrollPane_1.setViewportView(label);
+        final JLabel label_erd = new JLabel("");
+        label_erd.setVerticalAlignment(SwingConstants.TOP);
+        scrollPane_erd.setViewportView(label_erd);
 
-        JScrollPane scrollPane_2 = new JScrollPane();
-        tabbedPane.addTab("DTO", null, scrollPane_2, null);
+        final JScrollPane scrollPane_main = new JScrollPane();
+        tabbedPane.addTab("Main", null, scrollPane_main, null);
 
         final JTextPane textPane_DTO = new JTextPane();
-        scrollPane_2.setViewportView(textPane_DTO);
+        scrollPane_main.setViewportView(textPane_DTO);
 
         JScrollPane scrollPane_3 = new JScrollPane();
         tabbedPane.addTab("DAO", null, scrollPane_3, null);
@@ -100,6 +99,7 @@ public class ThesaurusApp {
             @Override
             public void windowOpened(WindowEvent e) {
                 try {
+                    label_erd.setIcon(new ImageIcon(Objects.requireNonNull(ThesaurusApp.class.getResource("/sdm/thesaurus/erd.png"))));
                     String dto = InternalHelpers.readFromJARFile(InternalHelpers.getConfigFileName("dto.xml"));
                     textPane_DTO.setText(dto);
                     textPane_DTO.setEditable(false);
