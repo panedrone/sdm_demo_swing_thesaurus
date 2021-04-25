@@ -78,7 +78,7 @@ public class ThesaurusApp {
         scrollPane_erd.setViewportView(label_erd);
 
         final JScrollPane scrollPane_main = new JScrollPane();
-        tabbedPane.addTab("Main", null, scrollPane_main, null);
+        tabbedPane.addTab("DTO", null, scrollPane_main, null);
 
         final JTextPane textPane_DTO = new JTextPane();
         scrollPane_main.setViewportView(textPane_DTO);
